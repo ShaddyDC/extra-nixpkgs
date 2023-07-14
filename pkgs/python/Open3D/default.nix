@@ -23,6 +23,7 @@
 #       '';
 #   });
 # in
+## Based on https://github.com/NixOS/nixpkgs/issues/115218#issuecomment-1578342266
 buildPythonPackage rec {
   pname = "open3d";
   version = "0.17.0";
