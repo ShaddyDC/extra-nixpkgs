@@ -40,6 +40,7 @@ buildPythonPackage rec {
 
   nativeBuildInputs = [
     pkgs.autoPatchelfHook
+    pythonPkgs.pythonRelaxDepsHook
   ];
 
   autoPatchelfIgnoreMissingDeps = [
@@ -68,7 +69,6 @@ buildPythonPackage rec {
     libtensorflow
     expat
     xorg.libXfixes
-    pythonPkgs.pythonRelaxDepsHook
     pythonPkgs.nbformat
   ];
   pythonRemoveDeps = ["nbformat"];
