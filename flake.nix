@@ -8,6 +8,7 @@
   outputs = inputs @ {
     flake-parts,
     nixpkgs,
+    self,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} {
@@ -27,12 +28,16 @@
         _module.args.pkgs = import nixpkgs {
           inherit system;
           config.allowUnfree = true;
+          overlays = [
+            self.overlays.pythonOverlay
+          ];
         };
         devShells.default = pkgs.mkShell {
           name = "dev";
-          packages = with self'.packages; [
-            (python3.withPackages (ps: with python3.pkgs; [Open3D]))
+          packages = with pkgs; [
+            (python3.withPackages (ps: with python3.pkgs; [numpy pytest pye57 Open3D toml-sort connected-components-3d gltflib pymeshlab]))
           ];
+          pymeshlab = pkgs.python3.pkgs.pymeshlab;
         };
 
         formatter = pkgs.alejandra;
