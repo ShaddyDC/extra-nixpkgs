@@ -2,7 +2,6 @@
   buildPythonPackage,
   pythonPkgs,
   fetchFromGitHub,
-  python,
   pkgs,
   ...
 }: let
@@ -27,6 +26,7 @@ in
     prePatch = ''
       mkdir -p src/meshlab/src/external/downloads/nexus-master/src/
       ln -s ${nexus-source} src/meshlab/src/external/downloads/nexus-master/src/corto
+      substituteInPlace "setup.py" --replace "'numpy'" ""
     '';
 
     propagatedBuildInputs = with pythonPkgs; [
@@ -34,20 +34,33 @@ in
       numpy
     ];
 
-    buildPhase = ''
-      cmake --build .
-      cp -r ${src}/* . && ${python.pythonForBuild.interpreter} setup.py bdist_wheel
+    configurePhase = ''
+      mkdir build && cd build
+      cmake ..  "-GNinja" "-DDCMAKE_INSTALL_PREFIX=./pymeshlab"  -DCMAKE_BUILD_TYPE=Release
     '';
+
+    buildPhase = ''
+      ninja
+      ninja install
+      ${pythonPkgs.pip}/bin/pip wheel .. -w wheels/
+    '';
+
+    format = "other";
+
+    pythonImportsCheck = ["pymeshlab"];
 
     installPhase = ''
       mkdir $out
-      cmake --install .
-      pip install dist/*.whl --target=$out
+      ${pythonPkgs.pip}/bin/pip install ./wheels/*.whl --no-index --no-warn-script-location --prefix="$out" --no-cache $pipInstallFlags
     '';
 
     nativeBuildInputs = with pkgs; [
       cmake
+      pythonPkgs.pythonRelaxDepsHook
       ninja
+      # eigen
+      # cgal
+      # boost
       pkg-config
       stdenv.cc.cc.lib
       libGLU
