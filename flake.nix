@@ -35,7 +35,18 @@
         devShells.default = pkgs.mkShell {
           name = "dev";
           packages = with pkgs; [
-            (python3.withPackages (ps: with python3.pkgs; [numpy pytest pye57 Open3D toml-sort connected-components-3d gltflib pymeshlab]))
+            (python3.withPackages (ps: with python3.pkgs; [
+              numpy
+              pytest
+              pye57
+              Open3D
+              toml-sort
+              connected-components-3d
+              gltflib
+              pymeshlab
+
+              pytorch-lightning
+              ]))
           ];
           pymeshlab = pkgs.python3.pkgs.pymeshlab;
         };
