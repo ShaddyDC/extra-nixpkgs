@@ -6,8 +6,8 @@
           pythonPkgs = final.pkgs.python3.pkgs;
           python = prev.pkgs.python3;
         in {
-         torch = prev.torch.override {
-           # identical to pytorchWithCuda but necessary to avoid conflicts
+          torch = prev.torch.override {
+            # identical to pytorchWithCuda but necessary to avoid conflicts
             magma = final.pkgs.magma-cuda-static;
             cudaSupport = true;
             rocmSupport = false;
@@ -20,6 +20,10 @@
           };
           pye57 = python.pkgs.callPackage ./pye57 {inherit pythonPkgs;};
           Open3D = python.pkgs.callPackage ./Open3D {inherit pythonPkgs;};
+          openusd = python.pkgs.callPackage ./OpenUSD {
+            inherit pythonPkgs;
+            inherit (python) sitePackages;
+          };
         };
       };
     };

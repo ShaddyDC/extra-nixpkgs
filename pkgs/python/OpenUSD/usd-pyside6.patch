@@ -1,0 +1,23 @@
+diff --git a/pxr/usdImaging/usdviewq/viewSettingsDataModel.py b/pxr/usdImaging/usdviewq/viewSettingsDataModel.py
+index f1eb247dd..d7d088abf 100644
+--- a/pxr/usdImaging/usdviewq/viewSettingsDataModel.py
++++ b/pxr/usdImaging/usdviewq/viewSettingsDataModel.py
+@@ -104,7 +104,7 @@ class OCIOSettings():
+     def colorSpace(self):
+         return self._colorSpace
+ 
+-class ViewSettingsDataModel(QtCore.QObject, StateSource):
++class ViewSettingsDataModel(StateSource, QtCore.QObject):
+     """Data model containing settings related to the rendered view of a USD
+     file.
+     """
+@@ -133,8 +133,8 @@ class ViewSettingsDataModel(QtCore.QObject, StateSource):
+     signalStyleSettingsChanged = QtCore.Signal()
+ 
+     def __init__(self, rootDataModel, parent):
+-        QtCore.QObject.__init__(self)
+         StateSource.__init__(self, parent, "model")
++        QtCore.QObject.__init__(self)
+ 
+         self._rootDataModel = rootDataModel
+ 
