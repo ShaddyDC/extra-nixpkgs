@@ -37,10 +37,10 @@
           packages = with pkgs; [
             (python3.withPackages (ps:
               with python3.pkgs; [
-                pymeshlab
+                # pymeshlab
               ]))
           ];
-          pymeshlab = pkgs.python3.pkgs.pymeshlab;
+          # pymeshlab = pkgs.python3.pkgs.pymeshlab;
         };
 
         formatter = pkgs.alejandra;
