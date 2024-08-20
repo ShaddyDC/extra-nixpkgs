@@ -20,10 +20,6 @@
           };
           pye57 = python.pkgs.callPackage ./pye57 {inherit pythonPkgs;};
           Open3D = python.pkgs.callPackage ./Open3D {inherit pythonPkgs;};
-          openusd = python.pkgs.callPackage ./OpenUSD {
-            inherit pythonPkgs;
-            inherit (python) sitePackages;
-          };
         };
       };
     };
