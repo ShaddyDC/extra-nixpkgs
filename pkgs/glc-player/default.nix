@@ -17,20 +17,20 @@ with pkgs; let
     postPatch = ''
       # Fix install directories
       substituteInPlace install.pri \
-        --replace "/usr/local" "$out" \
-        --replace "/usr" "$out"
+        --replace-fail "/usr/local" "$out" \
+        --replace-fail "/usr" "$out"
 
       # Don't build examples
       substituteInPlace glc_lib.pro \
-        --replace "src/plugins" "src/plugins #" \
-        --replace "src/examples" ""
+        --replace-fail "src/plugins" "src/plugins #" \
+        --replace-fail "src/examples" ""
 
       # Fix system quazip linking and building
       sed -i -e '1iINCLUDEPATH += ${libsForQt5.quazip.dev}/include/QuaZip-Qt5-1.4' src/lib/lib.pro
       substituteInPlace src/lib/lib.pro \
-        --replace "-lquazip5" "-L${libsForQt5.quazip}/lib -lquazip1-qt5"
+        --replace-fail "-lquazip5" "-L${libsForQt5.quazip}/lib -lquazip1-qt5"
       substituteInPlace src/lib/shading/glc_texture.cpp \
-        --replace '#include "quazip5' '#include "quazip'
+        --replace-fail '#include "quazip5' '#include "quazip'
     '';
 
     patches = [
@@ -86,9 +86,9 @@ in
 
     postPatch = ''
       substituteInPlace glc_player.pro \
-        --replace "/usr/local/include/GLC_lib-3.0" "${glc-lib}/include/GLC_lib-3.0" \
-        --replace "/usr/local/lib"  "${glc-lib}/lib" \
-        --replace "-lGLC_lib.3"  "-lGLC_lib"
+        --replace-fail "/usr/local/include/GLC_lib-3.0" "${glc-lib}/include/GLC_lib-3.0" \
+        --replace-fail "/usr/local/lib"  "${glc-lib}/lib" \
+        --replace-fail "-lGLC_lib.3"  "-lGLC_lib"
     '';
 
     buildPhase = ''
