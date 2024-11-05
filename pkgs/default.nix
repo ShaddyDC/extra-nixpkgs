@@ -7,11 +7,6 @@
         inherit pkgs;
         inherit (pkgs.stdenv) mkDerivation;
       };
-
-      collada2gltf = pkgs.callPackage ./collada2gltf {
-        inherit pkgs;
-        inherit (pkgs.stdenv) mkDerivation;
-      };
     };
   };
 }
