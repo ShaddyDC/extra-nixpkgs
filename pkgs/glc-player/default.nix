@@ -96,6 +96,6 @@ in
     '';
 
     postInstall = ''
-      install -D -m755 glc_player $out/bin/glc_player
+      install -D -m755 glc_player $out/bin/glc-player
     '';
   }
