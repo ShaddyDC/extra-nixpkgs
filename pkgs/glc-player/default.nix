@@ -5,12 +5,12 @@
   ...
 }:
 with pkgs; let
-  glc-lib = mkDerivation rec {
+  glc-lib = mkDerivation {
     pname = "GLC_lib";
     version = "3.0.1-2023-01-02";
     src = fetchFromGitHub {
       owner = "laumaya";
-      repo = pname;
+      repo = "GLC_lib";
       rev = "382230b26374c5737cebd41fa7a08849acd85b46";
       hash = "sha256-qfqsq3Kxe2zMc+VYbWuHlXaHfYCNkxXRQNF4sGwHrjI=";
     };
@@ -42,20 +42,12 @@ with pkgs; let
       })
     ];
 
-    buildPhase = ''
-      runHook preBuild
-
-      ${qt5.qtbase.dev}/bin/qmake -recursive
-      make -j$NIX_BUILD_CORES
-
-      runHook postBuild
-    '';
-
-    buildInputs = [
-      libGL
-      qt5.qtbase
+    nativeBuildInputs = [
+      libsForQt5.qmake
       qt5.wrapQtAppsHook
+      qt5.qtbase
       libsForQt5.quazip
+      libGL
       zlib
     ];
   };
@@ -74,6 +66,7 @@ in
     nativeBuildInputs = with pkgs; [
       qt5.qtbase
       qt5.wrapQtAppsHook
+      libsForQt5.qmake
     ];
 
     patches = [
@@ -89,15 +82,6 @@ in
         --replace-fail "/usr/local/include/GLC_lib-3.0" "${glc-lib}/include/GLC_lib-3.0" \
         --replace-fail "/usr/local/lib"  "${glc-lib}/lib" \
         --replace-fail "-lGLC_lib.3"  "-lGLC_lib"
-    '';
-
-    buildPhase = ''
-      runHook preBuild
-
-      ${qt5.qtbase.dev}/bin/qmake -recursive
-      make -j$NIX_BUILD_CORES
-
-      runHook postBuild
     '';
 
     postInstall = ''
