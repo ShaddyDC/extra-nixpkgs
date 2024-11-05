@@ -36,7 +36,8 @@ with pkgs; let
     patches = [
       # Use system quazip
       (pkgs.fetchpatch {
-        url = "https://github.com/laumaya/GLC_lib/pull/43.patch";
+        # https://github.com/laumaya/GLC_lib/pull/43
+        url = "https://github.com/laumaya/GLC_lib/commit/bb604254f5400388c6b15036ff7dddc2b9ef282e.patch?full_index=1";
         hash = "sha256-NXw+r7UJkepZpnDmyCF60dngtraIsVXccaQcq/lwvFU=";
       })
     ];
@@ -76,7 +77,11 @@ in
     ];
 
     patches = [
-      ./player.patch
+      (pkgs.fetchpatch {
+        # https://github.com/laumaya/GLC_Player/pull/10
+        url = "https://github.com/laumaya/GLC_Player/commit/c457a73c165257cc141d085a7d1ee2788f4a3eae.patch?full_index=1";
+        hash = "sha256-xh7QdCTHADixS5qOdxIEdJUabteeC1OWsRp8IegiuaA=";
+      })
     ];
 
     postPatch = ''
